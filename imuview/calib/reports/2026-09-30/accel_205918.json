@@ -1,0 +1,97 @@
+{
+  "model": "six",
+  "g": 9.80665,
+  "n_poses": 6,
+  "warnings": [
+    "6 poses for 6 parameters: the fit is exactly determined, so the residual after calibration proves nothing; check |a| on an extra pose"
+  ],
+  "errors": [],
+  "jacobian_condition": 10.183949618787166,
+  "offset_b": [
+    -0.002444796438979692,
+    0.002770088194486194,
+    -0.004419012431450271
+  ],
+  "matrix_M": [
+    [
+      0.9997834393311497,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.9996524254699305,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.998422641940102
+    ]
+  ],
+  "scale_diag": [
+    0.9997834393311497,
+    0.9996524254699305,
+    0.998422641940102
+  ],
+  "redundancy": 0,
+  "rel_err_before": [
+    0.0011401652085465397,
+    0.0020264091043753485,
+    0.0006299284641673175,
+    5.2144065308956655e-05,
+    -6.739624268548017e-05,
+    0.0004890451675900742
+  ],
+  "rel_err_after": [
+    0.0,
+    -3.3306690738754696e-16,
+    -2.220446049250313e-16,
+    0.0,
+    -2.220446049250313e-16,
+    2.220446049250313e-16
+  ],
+  "rms_before_ms2": 0.009847057481711963,
+  "rms_after_ms2": 2.0368775783822606e-15,
+  "max_rel_err_after": 3.3306690738754696e-16,
+  "poses": [
+    "level",
+    "back",
+    "left",
+    "right",
+    "nosedown",
+    "noseup"
+  ],
+  "names": [
+    "pose_level",
+    "pose_back",
+    "pose_left",
+    "pose_right",
+    "pose_nosedown",
+    "pose_noseup"
+  ],
+  "checks": [
+    {
+      "level": "ok",
+      "text": "offsets within 3.5 m/s^2: [-0.002, 0.003, -0.004]"
+    },
+    {
+      "level": "ok",
+      "text": "scales within (0.8, 1.25): [0.9998, 0.9997, 0.9984]"
+    },
+    {
+      "level": "ok",
+      "text": "|a| within 1 % of g in every pose (max 0.000 %)"
+    }
+  ],
+  "comparison": {
+    "six": {
+      "rms_after_ms2": 2.0368775783822606e-15,
+      "errors": []
+    },
+    "axis": {
+      "rms_after_ms2": 0.017999451353850504,
+      "errors": []
+    }
+  }
+}

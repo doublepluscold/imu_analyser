@@ -1,0 +1,329 @@
+[
+  {
+    "name": "still.csv",
+    "label": "still",
+    "time_source": "host",
+    "samples": 819,
+    "duration_s": 13.371,
+    "rate_hz": 61.18,
+    "interval_ms": {
+      "median": 8.16,
+      "p5": 8.159,
+      "p95": 103.399,
+      "max": 139.173,
+      "gaps_over_3x_median": 66
+    },
+    "rows_without_imu_fraction": 0.0683,
+    "std_accel": [
+      0.031756285136434116,
+      0.025751638361414426,
+      0.008733214833196248
+    ],
+    "std_gyro": [
+      0.001287624848312462,
+      0.0007456222421850724,
+      0.0004776569995139128
+    ],
+    "std_euler": [
+      0.015597230309698644,
+      0.01338652728356796,
+      0.13834241108304568
+    ],
+    "frozen_axes": {
+      "accel": [
+        false,
+        false,
+        false
+      ],
+      "gyro": [
+        false,
+        false,
+        false
+      ]
+    },
+    "repeat_fraction": {
+      "accel": 0.0513,
+      "gyro": 0.0501
+    },
+    "imu_board_absent": false,
+    "accel_norm": {
+      "mean": 9.821564193647058,
+      "std": 0.009532304759814416
+    },
+    "units_guess": {
+      "accel": "m/s^2",
+      "g": 9.80665,
+      "gyro": "rad/s per spec, unverified"
+    },
+    "still": {
+      "still": true,
+      "gyro_std_norm": 0.0015603972458109396,
+      "accel_norm_std_rel": 0.000970548537062992
+    },
+    "status_values": {
+      "2": 819
+    },
+    "x2060": {
+      "mean": 129.5558546576308,
+      "std": 0.16838037441739387,
+      "min": 128.98480224609375,
+      "max": 129.9822540283203
+    },
+    "euler_vs_accel_deg": {
+      "ENU, ZYX (Xsens spec)": 0.011,
+      "NED, ZYX": 179.989,
+      "ENU, XYZ order": 2.016,
+      "ENU, roll/pitch swapped": 3.224
+    },
+    "checksum_errors": null,
+    "bad_frames_by_mid_len": null
+  },
+  {
+    "name": "2026-09-30_14-45-18_legacy-still-bin",
+    "label": "legacy-still-bin",
+    "time_source": "synthetic",
+    "samples": 819,
+    "duration_s": 13.234,
+    "rate_hz": 61.81,
+    "interval_ms": {
+      "median": 9.49,
+      "p5": 9.489,
+      "p95": 44.016,
+      "max": 84.497,
+      "gaps_over_3x_median": 69
+    },
+    "rows_without_imu_fraction": 0.0683,
+    "std_accel": [
+      0.031756285136434116,
+      0.025751638361414426,
+      0.008733214833196248
+    ],
+    "std_gyro": [
+      0.001287624848312462,
+      0.0007456222421850724,
+      0.0004776569995139128
+    ],
+    "std_euler": [
+      0.015597230309698644,
+      0.01338652728356796,
+      0.13834241108304568
+    ],
+    "frozen_axes": {
+      "accel": [
+        false,
+        false,
+        false
+      ],
+      "gyro": [
+        false,
+        false,
+        false
+      ]
+    },
+    "repeat_fraction": {
+      "accel": 0.0513,
+      "gyro": 0.0501
+    },
+    "imu_board_absent": false,
+    "accel_norm": {
+      "mean": 9.821564193647058,
+      "std": 0.009532304759814416
+    },
+    "units_guess": {
+      "accel": "m/s^2",
+      "g": 9.80665,
+      "gyro": "rad/s per spec, unverified"
+    },
+    "still": {
+      "still": true,
+      "gyro_std_norm": 0.0015603972458109396,
+      "accel_norm_std_rel": 0.000970548537062992
+    },
+    "status_values": {
+      "2": 819
+    },
+    "x2060": {
+      "mean": 129.5558546576308,
+      "std": 0.16838037441739387,
+      "min": 128.98480224609375,
+      "max": 129.9822540283203
+    },
+    "euler_vs_accel_deg": {
+      "ENU, ZYX (Xsens spec)": 0.011,
+      "NED, ZYX": 179.989,
+      "ENU, XYZ order": 2.016,
+      "ENU, roll/pitch swapped": 3.224
+    },
+    "checksum_errors": {
+      "mtdata2": 537
+    },
+    "bad_frames_by_mid_len": {
+      "0x36/55": 8,
+      "0x36/89": 529
+    }
+  },
+  {
+    "name": "2026-09-30_14-46-27_legacy-dryrun_uart",
+    "label": "legacy-dryrun_uart",
+    "time_source": "synthetic",
+    "samples": 2896,
+    "duration_s": 34.944,
+    "rate_hz": 82.85,
+    "interval_ms": {
+      "median": 8.16,
+      "p5": 8.159,
+      "p95": 32.639,
+      "max": 64.497,
+      "gaps_over_3x_median": 171
+    },
+    "rows_without_imu_fraction": 0.0613,
+    "std_accel": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "std_gyro": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "std_euler": [
+      7.632506664640652,
+      0.23065236569365805,
+      0.033365756594726785
+    ],
+    "frozen_axes": {
+      "accel": [
+        true,
+        true,
+        true
+      ],
+      "gyro": [
+        true,
+        true,
+        true
+      ]
+    },
+    "repeat_fraction": {
+      "accel": 0.9997,
+      "gyro": 0.9997
+    },
+    "imu_board_absent": true,
+    "accel_norm": {
+      "mean": 1.2940923246648107e-14,
+      "std": 0.0
+    },
+    "units_guess": {
+      "accel": null,
+      "g": null,
+      "gyro": "rad/s per spec, unverified"
+    },
+    "still": {
+      "still": false,
+      "gyro_std_norm": NaN,
+      "accel_norm_std_rel": NaN
+    },
+    "status_values": {
+      "2": 2896
+    },
+    "x2060": {
+      "mean": 18.06489908888689,
+      "std": 6.8032041455097945,
+      "min": -15.110869407653809,
+      "max": 49.31764221191406
+    },
+    "euler_vs_accel_deg": null,
+    "checksum_errors": {
+      "mtdata2": 1248
+    },
+    "bad_frames_by_mid_len": {
+      "0x36/55": 19,
+      "0x36/89": 1229
+    }
+  },
+  {
+    "name": "2026-09-30_14-45-27_legacy-dryrun_stlink",
+    "label": "legacy-dryrun_stlink",
+    "time_source": "synthetic",
+    "samples": 890,
+    "duration_s": 12.786,
+    "rate_hz": 69.53,
+    "interval_ms": {
+      "median": 8.16,
+      "p5": 8.159,
+      "p95": 40.799,
+      "max": 80.816,
+      "gaps_over_3x_median": 90
+    },
+    "rows_without_imu_fraction": 0.0661,
+    "std_accel": [
+      0.07417592149717857,
+      0.06473154135102337,
+      0.017504841838062276
+    ],
+    "std_gyro": [
+      0.00258812212673874,
+      0.0007575506135607224,
+      0.0010242658572757503
+    ],
+    "std_euler": [
+      0.05693864662829064,
+      0.053015196669031026,
+      0.1660622442495185
+    ],
+    "frozen_axes": {
+      "accel": [
+        false,
+        false,
+        false
+      ],
+      "gyro": [
+        false,
+        false,
+        false
+      ]
+    },
+    "repeat_fraction": {
+      "accel": 0.0438,
+      "gyro": 0.0438
+    },
+    "imu_board_absent": false,
+    "accel_norm": {
+      "mean": 9.82140692964645,
+      "std": 0.01868871878970608
+    },
+    "units_guess": {
+      "accel": "m/s^2",
+      "g": 9.80665,
+      "gyro": "rad/s per spec, unverified"
+    },
+    "still": {
+      "still": true,
+      "gyro_std_norm": 0.002917955113307408,
+      "accel_norm_std_rel": 0.0019028555606725923
+    },
+    "status_values": {
+      "2": 890
+    },
+    "x2060": {
+      "mean": 130.32218561065332,
+      "std": 0.2319116030385424,
+      "min": 129.64906311035156,
+      "max": 130.9586181640625
+    },
+    "euler_vs_accel_deg": {
+      "ENU, ZYX (Xsens spec)": 0.032,
+      "NED, ZYX": 179.968,
+      "ENU, XYZ order": 2.076,
+      "ENU, roll/pitch swapped": 3.156
+    },
+    "checksum_errors": {
+      "mtdata2": 633
+    },
+    "bad_frames_by_mid_len": {
+      "0x2D/250": 1,
+      "0x36/55": 12,
+      "0x36/89": 620
+    }
+  }
+]

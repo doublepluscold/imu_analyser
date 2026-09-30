@@ -1,0 +1,55 @@
+[project]
+name = "imuview"
+version = "0.1.0"
+description = "IMU live viewer, logger and replay"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "numpy>=2.0",
+    "pyarrow>=15",
+    "pyserial>=3.5",
+    "rerun-sdk==0.38.1",
+    "scipy",
+    "matplotlib",  # calibration reports
+    "pyside6>=6.11.2",
+    "pyqtgraph>=0.14.0",
+    "pyopengl>=3.1.10",
+]
+
+[project.scripts]
+imu = "imuview.cli:main"
+
+[project.gui-scripts]
+imuview-gui = "imuview.gui.app:main"
+
+[dependency-groups]
+dev = [
+    "pyinstaller>=6.22.3",
+    "pytest",
+    "ruff",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/imuview"]
+# vendor/mtdata2_decoder.py stays a standalone script; the package imports it as a module
+dev-mode-dirs = ["src", "vendor"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["tests", "vendor"]
+# ROS (if sourced) registers pytest plugins that crash outside a ROS workspace
+addopts = "-p no:launch_testing -p no:launch_ros"
+
+[tool.ruff.lint.per-file-ignores]
+"src/imuview/gui/theme.py" = ["E501"]  # long QSS lines

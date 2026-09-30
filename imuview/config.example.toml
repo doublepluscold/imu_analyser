@@ -1,0 +1,43 @@
+# Copy to config.toml and pass with --config config.toml. Everything here is optional.
+
+parser = "mtdata2"      # wire format of the sensor module (see PARSERS in protocol.py)
+extra_parsers = []      # more parsers, e.g. a GNSS parser later
+log_dir = "logs"
+calib_file = ""         # host calibration, e.g. "calib/imu_calib.json" (--calib overrides)
+
+[serial]                # LISTEN-ONLY: nothing is ever sent to the module
+port = "/dev/ttyUSB0"
+baud = 115200
+
+[imu.default]           # applies to every IMU unless overridden below
+accel_lsb_g = 0.00048828125        # 1/2048 g per LSB (+-16 g, int16)
+gyro_lsb_dps = 0.06097560975609756 # 1/16.4 deg/s per LSB (+-2000 deg/s, int16)
+board_alignment_deg = [180, 0, 0]  # roll, pitch, yaw: sensor -> body (FRD); 180 = device z up
+
+[imu.1]                 # example: second IMU mounted upside down and turned 90 deg
+board_alignment_deg = [180, 0, 90]
+
+[estimator]
+algo = "mahony"         # mahony | madgwick | passthrough (needs frame type 0x04)
+primary_imu = 0         # this IMU drives the vehicle model
+kp = 1.0                # mahony
+ki = 0.05               # mahony
+beta = 0.05             # madgwick
+
+[calibration]           # key "c"
+seconds = 3.0
+max_gyro_dps = 5.0      # abort if the IMU turns faster than this
+max_accel_std = 0.2     # abort if |accel| varies more than this [m/s^2]
+
+[viewer]
+plot_hz = 0             # 0 = full rate; e.g. 200 to decimate plots
+transform_hz = 0        # 0 = full rate; e.g. 60 to decimate the 3D model
+model = ""              # optional .glb file instead of the built-in quad (must be in FRD)
+
+[network]               # UDP listener for the master ESP (listen only; `imu net`, GUI "Мережа")
+host = "0.0.0.0"
+port = 5005
+
+[modules.names]         # module_id (given out by the master) -> name shown in the GUI
+# 1 = "Дрон 1"
+# 2 = "Дрон 2"

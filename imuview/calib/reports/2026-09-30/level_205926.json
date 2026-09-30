@@ -1,0 +1,17 @@
+{
+  "level_trim_deg": [
+    -0.4089,
+    2.5761
+  ],
+  "tilt_before_deg": 2.608,
+  "residual_after": [
+    -0.0,
+    -0.0,
+    -1.0
+  ],
+  "board_alignment_deg": [
+    180,
+    0,
+    180
+  ]
+}

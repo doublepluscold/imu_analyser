@@ -1,0 +1,119 @@
+{
+  "bytes": 147471,
+  "sync_attempts": 1586,
+  "valid_frames": {
+    "0x36/55": 63,
+    "0x36/89": 890
+  },
+  "bad_real_header": {
+    "0x36/89": 620,
+    "0x36/55": 12
+  },
+  "false_syncs": 1,
+  "false_sync_kinds": {
+    "0x2D/250": 1
+  },
+  "fa_ff_inside_valid_frames": 1,
+  "extended_frames": 0,
+  "other_mids": {},
+  "bad_full_length": 632,
+  "bad_truncated": 0,
+  "bad_fraction": 0.3987,
+  "bad_fraction_of_sync_attempts": 0.3991,
+  "byte_accounting": {
+    "valid_frames": 87440,
+    "bad_full_frames": 59000,
+    "truncated_frames": 0,
+    "lead_before_first_frame": 81,
+    "unclaimed_between_frames": 950,
+    "uncovered_total": 1031
+  },
+  "unclaimed_runs_top": [
+    {
+      "len": 25,
+      "count": 38,
+      "hex": "fa705403110000871ec82a0003000300000000000000000502"
+    }
+  ],
+  "main_kind": "0x36/89",
+  "p_bad_after_kind": {
+    "0x36/55": {
+      "0": 0.97,
+      "1": 0.85,
+      "2": 0.95,
+      "3": 0.57,
+      "4": 0.35,
+      "5": 0.23,
+      "6": 0.29,
+      "7": 0.24,
+      "8": 0.41,
+      "9": 0.27,
+      "10": 0.43,
+      "11": 0.15,
+      "12": 0.43,
+      "13": 0.35,
+      "14": 0.28,
+      "15": 0.21,
+      "16": 0.39,
+      "17": 0.24,
+      "18": 0.41,
+      "19": 0.2,
+      "20": 0.33
+    }
+  },
+  "bad_run_lengths": {
+    "1": 205,
+    "2": 43,
+    "3": 39,
+    "4": 33,
+    "5": 8,
+    "6": 4,
+    "8": 2
+  },
+  "p_bad": 0.4106,
+  "p_bad_given_prev_bad": 0.4613,
+  "bad_spacing_top": {
+    "1": 286,
+    "2": 142,
+    "4": 57,
+    "3": 56,
+    "5": 23,
+    "6": 19,
+    "7": 13,
+    "8": 10
+  },
+  "cs_equals_correct_cs_of_frame_at_lag": {
+    "bad_frames": 619,
+    "chance_per_lag": 2.4,
+    "hits": {
+      "-3": 2,
+      "-2": 12,
+      "-1": 1,
+      "1": 2,
+      "2": 177,
+      "3": 2
+    }
+  },
+  "payload_identical_to_frame_at_lag": {
+    "good_frames": 885,
+    "good_hits": {
+      "-2": 39,
+      "2": 39
+    },
+    "bad_frames": 619,
+    "bad_hits": {
+      "-2": 1,
+      "2": 1
+    }
+  },
+  "accel_norm_good": {
+    "n": 890,
+    "mean": 9.82142,
+    "std": 0.01847
+  },
+  "accel_norm_bad": {
+    "n": 620,
+    "mean": 9.82411,
+    "std": 0.01826
+  }
+}

@@ -1,0 +1,137 @@
+{
+  "bytes": 407909,
+  "sync_attempts": 4334,
+  "valid_frames": {
+    "0x36/55": 189,
+    "0x36/89": 2896
+  },
+  "bad_real_header": {
+    "0x36/89": 1229,
+    "0x36/55": 19
+  },
+  "false_syncs": 0,
+  "false_sync_kinds": {},
+  "fa_ff_inside_valid_frames": 0,
+  "extended_frames": 0,
+  "other_mids": {},
+  "bad_full_length": 1248,
+  "bad_truncated": 0,
+  "bad_fraction": 0.288,
+  "bad_fraction_of_sync_attempts": 0.2882,
+  "byte_accounting": {
+    "valid_frames": 283564,
+    "bad_full_frames": 116666,
+    "truncated_frames": 0,
+    "lead_before_first_frame": 1595,
+    "unclaimed_between_frames": 6084,
+    "uncovered_total": 7679
+  },
+  "unclaimed_runs_top": [
+    {
+      "len": 25,
+      "count": 103,
+      "hex": "fa705403110000871ec82a0003000300000000000000000502"
+    },
+    {
+      "len": 1880,
+      "count": 1,
+      "hex": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    {
+      "len": 1529,
+      "count": 1,
+      "hex": "fa705403110000871ec82a000300030000000000000000050200000000000000"
+    },
+    {
+      "len": 60,
+      "count": 1,
+      "hex": "00ff3637884034100e0000c443042600000000260443c4000000000000000026"
+    },
+    {
+      "len": 40,
+      "count": 1,
+      "hex": "faff365920300c4319a3f73e0ca63142b8ddd040200c2724b48027cef4f3a84c"
+    }
+  ],
+  "main_kind": "0x36/89",
+  "p_bad_after_kind": {
+    "0x36/55": {
+      "0": 0.84,
+      "1": 0.85,
+      "2": 0.86,
+      "3": 0.53,
+      "4": 0.2,
+      "5": 0.17,
+      "6": 0.18,
+      "7": 0.12,
+      "8": 0.24,
+      "9": 0.16,
+      "10": 0.16,
+      "11": 0.2,
+      "12": 0.16,
+      "13": 0.17,
+      "14": 0.21,
+      "15": 0.19,
+      "16": 0.15,
+      "17": 0.19,
+      "18": 0.17,
+      "19": 0.19,
+      "20": 0.26,
+      "21": 0.09
+    }
+  },
+  "bad_run_lengths": {
+    "1": 468,
+    "2": 83,
+    "3": 71,
+    "4": 61,
+    "5": 24,
+    "6": 3
+  },
+  "p_bad": 0.2979,
+  "p_bad_given_prev_bad": 0.4226,
+  "bad_spacing_top": {
+    "1": 519,
+    "2": 193,
+    "4": 116,
+    "3": 88,
+    "6": 70,
+    "5": 63,
+    "7": 42,
+    "8": 34
+  },
+  "cs_equals_correct_cs_of_frame_at_lag": {
+    "bad_frames": 1228,
+    "chance_per_lag": 4.8,
+    "hits": {
+      "-3": 5,
+      "-2": 46,
+      "-1": 3,
+      "1": 5,
+      "2": 517,
+      "3": 2
+    }
+  },
+  "payload_identical_to_frame_at_lag": {
+    "good_frames": 2891,
+    "good_hits": {
+      "-2": 88,
+      "2": 88
+    },
+    "bad_frames": 1228,
+    "bad_hits": {
+      "-2": 1,
+      "2": 1
+    }
+  },
+  "accel_norm_good": {
+    "n": 2896,
+    "mean": 0.0,
+    "std": 0.0
+  },
+  "accel_norm_bad": {
+    "n": 1229,
+    "mean": 0.0,
+    "std": 0.0
+  }
+}

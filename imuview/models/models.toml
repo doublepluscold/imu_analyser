@@ -1,0 +1,15 @@
+# Model registry. Drop an .stl into this folder; a line here is optional (see
+# src/imuview/gui/models.py for every field). Models must end up with the nose along +x,
+# right wing along +y and the underside along +z after rotation_deg (roll, pitch, yaw).
+
+[[model]]
+key = "shahed"
+display_name = "Шахед"
+file = "shahed.stl"
+rotation_deg = [0, 90, 0]     # the STL stands on its tail: nose is +z, wings along y
+
+[[model]]
+key = "scout"
+display_name = "IAI Scout"
+file = "IAI_scout.stl"
+rotation_deg = [180, 0, -90]  # nose is -y, wings along x, z up

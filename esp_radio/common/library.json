@@ -1,0 +1,6 @@
+{
+  "name": "imucommon",
+  "version": "1.0.0",
+  "description": "MTData2 framer, UDP datagram encoder, MAC->module_id table. Plain C++, no Arduino/ESP-IDF.",
+  "build": { "flags": "-I." }
+}

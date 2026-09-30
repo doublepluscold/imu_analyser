@@ -1,0 +1,167 @@
+{
+  "poses": [
+    {
+      "session": "pose_level",
+      "pose": "level",
+      "mean_accel": [
+        -0.4436455287386873,
+        0.07231106391010342,
+        9.807435286214337
+      ],
+      "norm": 9.817730753000703,
+      "dominant": "+z",
+      "still": {
+        "still": true,
+        "gyro_std_norm": 0.00045571954457510224,
+        "accel_norm_std_rel": 0.0007797364802137806
+      },
+      "residual_deg_fit": 0.889,
+      "residual_deg_perm": 2.624
+    },
+    {
+      "session": "pose_back",
+      "pose": "back",
+      "mean_accel": [
+        -0.3545745234000377,
+        -0.32338433319177384,
+        -9.814653439644056
+      ],
+      "norm": 9.826378919007507,
+      "dominant": "-z",
+      "still": {
+        "still": true,
+        "gyro_std_norm": 0.0005659970937404158,
+        "accel_norm_std_rel": 0.0007078415150699508
+      },
+      "residual_deg_fit": 4.032,
+      "residual_deg_perm": 2.799
+    },
+    {
+      "session": "pose_left",
+      "pose": "left",
+      "mean_accel": [
+        -0.1095014669114563,
+        9.811893446675413,
+        0.06343290640110963
+      ],
+      "norm": 9.812709478721061,
+      "dominant": "+y",
+      "still": {
+        "still": true,
+        "gyro_std_norm": 0.0005113882845486348,
+        "accel_norm_std_rel": 0.0009538784996043891
+      },
+      "residual_deg_fit": 1.717,
+      "residual_deg_perm": 0.739
+    },
+    {
+      "session": "pose_right",
+      "pose": "right",
+      "mean_accel": [
+        0.03683351771464689,
+        -9.802785044810811,
+        0.287856278986838
+      ],
+      "norm": 9.807079717232131,
+      "dominant": "-y",
+      "still": {
+        "still": true,
+        "gyro_std_norm": 0.0008721457270903895,
+        "accel_norm_std_rel": 0.0007093447047665458
+      },
+      "residual_deg_fit": 1.087,
+      "residual_deg_perm": 1.696
+    },
+    {
+      "session": "pose_nosedown",
+      "pose": "nosedown",
+      "mean_accel": [
+        9.765766287298412,
+        -0.2369406946711904,
+        0.8557379153579505
+      ],
+      "norm": 9.806050145227008,
+      "dominant": "+x",
+      "still": {
+        "still": true,
+        "gyro_std_norm": 0.0003672411396883366,
+        "accel_norm_std_rel": 0.0007530958852351791
+      },
+      "residual_deg_fit": 3.278,
+      "residual_deg_perm": 5.195
+    },
+    {
+      "session": "pose_noseup",
+      "pose": "noseup",
+      "mean_accel": [
+        -9.803109027612916,
+        0.2492596296810665,
+        -0.3224108020769306
+      ],
+      "norm": 9.811576106597272,
+      "dominant": "-x",
+      "still": {
+        "still": true,
+        "gyro_std_norm": 0.000713137306293984,
+        "accel_norm_std_rel": 0.00100807403018576
+      },
+      "residual_deg_fit": 0.958,
+      "residual_deg_perm": 2.38
+    }
+  ],
+  "covered": [
+    "back",
+    "left",
+    "level",
+    "nosedown",
+    "noseup",
+    "right"
+  ],
+  "rotation_fit": [
+    [
+      -0.99944,
+      0.0087,
+      -0.03231
+    ],
+    [
+      0.00921,
+      0.99984,
+      -0.01551
+    ],
+    [
+      0.03217,
+      -0.0158,
+      -0.99936
+    ]
+  ],
+  "signed_permutation": [
+    [
+      -1,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      -1
+    ]
+  ],
+  "det": 1.0,
+  "mapping": [
+    "sensor +x -> body -x (forward)",
+    "sensor +y -> body +y (right)",
+    "sensor +z -> body -z (down)"
+  ],
+  "board_alignment_deg": [
+    180.0,
+    0.0,
+    180.0
+  ],
+  "mount_tilt_deg": 2.117,
+  "pairwise_min_angle_deg": 86.1
+}

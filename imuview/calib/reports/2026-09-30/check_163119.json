@@ -1,0 +1,844 @@
+[
+  {
+    "name": "2026-09-30_16-21-39_still",
+    "label": "still",
+    "time_source": "host",
+    "samples": 4008,
+    "duration_s": 59.911,
+    "rate_hz": 66.88,
+    "interval_ms": {
+      "median": 10.058,
+      "p5": 9.601,
+      "p95": 40.653,
+      "max": 80.823,
+      "gaps_over_3x_median": 315
+    },
+    "rows_without_imu_fraction": 0.0638,
+    "std_accel": [
+      0.01694690861766777,
+      0.013517709306813366,
+      0.007608422175220871
+    ],
+    "std_gyro": [
+      0.0004990699612757081,
+      0.00018276704631294485,
+      0.0004855498130230884
+    ],
+    "std_euler": [
+      0.007918848025334959,
+      0.005905922319844774,
+      0.9017390037567677
+    ],
+    "frozen_axes": {
+      "accel": [
+        false,
+        false,
+        false
+      ],
+      "gyro": [
+        false,
+        false,
+        false
+      ]
+    },
+    "repeat_fraction": {
+      "accel": 0.022,
+      "gyro": 0.0227
+    },
+    "imu_board_absent": false,
+    "accel_norm": {
+      "mean": 9.817390240900044,
+      "std": 0.008069895378780936
+    },
+    "units_guess": {
+      "accel": "m/s^2",
+      "g": 9.80665,
+      "gyro": "rad/s per spec, unverified"
+    },
+    "still": {
+      "still": true,
+      "gyro_std_norm": 0.0007176183230785178,
+      "accel_norm_std_rel": 0.0008220000611935641
+    },
+    "status_values": {
+      "2": 4008
+    },
+    "x2060": {
+      "mean": -67.13657184037382,
+      "std": 0.32407178806195086,
+      "min": -68.0561294555664,
+      "max": -66.50527954101562
+    },
+    "euler_vs_accel_deg": {
+      "ENU, ZYX (Xsens spec)": 0.007,
+      "NED, ZYX": 179.993,
+      "ENU, XYZ order": 5.162,
+      "ENU, roll/pitch swapped": 3.089
+    },
+    "checksum_errors": {
+      "mtdata2": 2013
+    },
+    "bad_frames_by_mid_len": {
+      "0x20/96": 1,
+      "0x36/55": 26,
+      "0x36/89": 1986
+    }
+  },
+  {
+    "name": "2026-09-30_16-23-17_pose_level",
+    "label": "pose_level",
+    "time_source": "host",
+    "samples": 1012,
+    "duration_s": 14.99,
+    "rate_hz": 67.44,
+    "interval_ms": {
+      "median": 10.069,
+      "p5": 9.737,
+      "p95": 40.199,
+      "max": 69.903,
+      "gaps_over_3x_median": 69
+    },
+    "rows_without_imu_fraction": 0.0656,
+    "std_accel": [
+      0.010659814807944578,
+      0.011248315520722621,
+      0.007649197115781822
+    ],
+    "std_gyro": [
+      0.00030572840431879563,
+      0.0001517930126713267,
+      0.00029826121564496816
+    ],
+    "std_euler": [
+      0.00894965320762333,
+      0.002726837408717517,
+      0.38645012326711553
+    ],
+    "frozen_axes": {
+      "accel": [
+        false,
+        false,
+        false
+      ],
+      "gyro": [
+        false,
+        false,
+        false
+      ]
+    },
+    "repeat_fraction": {
+      "accel": 0.0257,
+      "gyro": 0.0247
+    },
+    "imu_board_absent": false,
+    "accel_norm": {
+      "mean": 9.817743212616838,
+      "std": 0.007655252536248588
+    },
+    "units_guess": {
+      "accel": "m/s^2",
+      "g": 9.80665,
+      "gyro": "rad/s per spec, unverified"
+    },
+    "still": {
+      "still": true,
+      "gyro_std_norm": 0.00045571954457510224,
+      "accel_norm_std_rel": 0.0007797364802137806
+    },
+    "status_values": {
+      "2": 1012
+    },
+    "x2060": {
+      "mean": -65.7217500633873,
+      "std": 0.4150288738321948,
+      "min": -66.30178833007812,
+      "max": -64.73812866210938
+    },
+    "euler_vs_accel_deg": {
+      "ENU, ZYX (Xsens spec)": 0.005,
+      "NED, ZYX": 179.995,
+      "ENU, XYZ order": 5.136,
+      "ENU, roll/pitch swapped": 3.068
+    },
+    "checksum_errors": {
+      "mtdata2": 492
+    },
+    "bad_frames_by_mid_len": {
+      "0x36/55": 4,
+      "0x36/89": 488
+    }
+  },
+  {
+    "name": "2026-09-30_16-23-47_pose_back",
+    "label": "pose_back",
+    "time_source": "host",
+    "samples": 1014,
+    "duration_s": 14.98,
+    "rate_hz": 67.62,
+    "interval_ms": {
+      "median": 10.051,
+      "p5": 9.718,
+      "p95": 40.158,
+      "max": 70.415,
+      "gaps_over_3x_median": 73
+    },
+    "rows_without_imu_fraction": 0.0672,
+    "std_accel": [
+      0.010859833430636033,
+      0.012978488483704614,
+      0.006888660630514395
+    ],
+    "std_gyro": [
+      0.0005076627195269066,
+      0.00012587843182826355,
+      0.0002231292423783629
+    ],
+    "std_euler": [
+      0.008946290050045885,
+      0.006710415186910541,
+      0.010669289169878818
+    ],
+    "frozen_axes": {
+      "accel": [
+        false,
+        false,
+        false
+      ],
+      "gyro": [
+        false,
+        false,
+        false
+      ]
+    },
+    "repeat_fraction": {
+      "accel": 0.0385,
+      "gyro": 0.0385
+    },
+    "imu_board_absent": false,
+    "accel_norm": {
+      "mean": 9.826393561602822,
+      "std": 0.006955529306318552
+    },
+    "units_guess": {
+      "accel": "m/s^2",
+      "g": 9.80665,
+      "gyro": "rad/s per spec, unverified"
+    },
+    "still": {
+      "still": true,
+      "gyro_std_norm": 0.0005659970937404158,
+      "accel_norm_std_rel": 0.0007078415150699508
+    },
+    "status_values": {
+      "2": 1014
+    },
+    "x2060": {
+      "mean": 131.27535025090626,
+      "std": 0.007012415919902184,
+      "min": 131.23086547851562,
+      "max": 131.30038452148438
+    },
+    "euler_vs_accel_deg": {
+      "ENU, ZYX (Xsens spec)": 0.008,
+      "NED, ZYX": 179.992,
+      "ENU, XYZ order": 5.206,
+      "ENU, roll/pitch swapped": 3.966
+    },
+    "checksum_errors": {
+      "mtdata2": 488
+    },
+    "bad_frames_by_mid_len": {
+      "0x36/55": 2,
+      "0x36/89": 486
+    }
+  },
+  {
+    "name": "2026-09-30_16-25-02_pose_left",
+    "label": "pose_left",
+    "time_source": "host",
+    "samples": 1015,
+    "duration_s": 14.98,
+    "rate_hz": 67.69,
+    "interval_ms": {
+      "median": 10.046,
+      "p5": 9.619,
+      "p95": 40.589,
+      "max": 80.021,
+      "gaps_over_3x_median": 74
+    },
+    "rows_without_imu_fraction": 0.0611,
+    "std_accel": [
+      0.01166500549402269,
+      0.009336030923866654,
+      0.015085121900399259
+    ],
+    "std_gyro": [
+      0.00039447150669325915,
+      0.000281798503440545,
+      0.00017178525180778126
+    ],
+    "std_euler": [
+      0.00600327187311048,
+      0.004389304799398609,
+      0.006603723146173804
+    ],
+    "frozen_axes": {
+      "accel": [
+        false,
+        false,
+        false
+      ],
+      "gyro": [
+        false,
+        false,
+        false
+      ]
+    },
+    "repeat_fraction": {
+      "accel": 0.0296,
+      "gyro": 0.0296
+    },
+    "imu_board_absent": false,
+    "accel_norm": {
+      "mean": 9.812728314903145,
+      "std": 0.009360150562045318
+    },
+    "units_guess": {
+      "accel": "m/s^2",
+      "g": 9.80665,
+      "gyro": "rad/s per spec, unverified"
+    },
+    "still": {
+      "still": true,
+      "gyro_std_norm": 0.0005113882845486348,
+      "accel_norm_std_rel": 0.0009538784996043891
+    },
+    "status_values": {
+      "2": 1015
+    },
+    "x2060": {
+      "mean": -43.33556249834634,
+      "std": 0.007389360588481048,
+      "min": -43.36922836303711,
+      "max": -43.29725646972656
+    },
+    "euler_vs_accel_deg": {
+      "ENU, ZYX (Xsens spec)": 0.011,
+      "NED, ZYX": 179.989,
+      "ENU, XYZ order": 133.966,
+      "ENU, roll/pitch swapped": 89.354
+    },
+    "checksum_errors": {
+      "mtdata2": 495
+    },
+    "bad_frames_by_mid_len": {
+      "0x36/55": 9,
+      "0x36/89": 485,
+      "0x3D/128": 1
+    }
+  },
+  {
+    "name": "2026-09-30_16-25-43_pose_right",
+    "label": "pose_right",
+    "time_source": "host",
+    "samples": 1006,
+    "duration_s": 14.98,
+    "rate_hz": 67.09,
+    "interval_ms": {
+      "median": 10.051,
+      "p5": 9.541,
+      "p95": 40.315,
+      "max": 70.814,
+      "gaps_over_3x_median": 77
+    },
+    "rows_without_imu_fraction": 0.0607,
+    "std_accel": [
+      0.016539134036989183,
+      0.006795693137570061,
+      0.014108659183835926
+    ],
+    "std_gyro": [
+      0.0007034005302663082,
+      0.00048360126572772927,
+      0.00014368725774148715
+    ],
+    "std_euler": [
+      0.005543760783944221,
+      0.016547871967273035,
+      0.13655166186238765
+    ],
+    "frozen_axes": {
+      "accel": [
+        false,
+        false,
+        false
+      ],
+      "gyro": [
+        false,
+        false,
+        false
+      ]
+    },
+    "repeat_fraction": {
+      "accel": 0.0298,
+      "gyro": 0.0298
+    },
+    "imu_board_absent": false,
+    "accel_norm": {
+      "mean": 9.807103598192239,
+      "std": 0.006956617006474602
+    },
+    "units_guess": {
+      "accel": "m/s^2",
+      "g": 9.80665,
+      "gyro": "rad/s per spec, unverified"
+    },
+    "still": {
+      "still": true,
+      "gyro_std_norm": 0.0008721457270903895,
+      "accel_norm_std_rel": 0.0007093447047665458
+    },
+    "status_values": {
+      "2": 1006
+    },
+    "x2060": {
+      "mean": -132.58321013554902,
+      "std": 0.1723408338143671,
+      "min": -132.96102905273438,
+      "max": -132.20582580566406
+    },
+    "euler_vs_accel_deg": {
+      "ENU, ZYX (Xsens spec)": 0.011,
+      "NED, ZYX": 179.989,
+      "ENU, XYZ order": 137.057,
+      "ENU, roll/pitch swapped": 89.729
+    },
+    "checksum_errors": {
+      "mtdata2": 504
+    },
+    "bad_frames_by_mid_len": {
+      "0x36/55": 10,
+      "0x36/89": 494
+    }
+  },
+  {
+    "name": "2026-09-30_16-26-35_pose_nosedown",
+    "label": "pose_nosedown",
+    "time_source": "host",
+    "samples": 983,
+    "duration_s": 14.98,
+    "rate_hz": 65.55,
+    "interval_ms": {
+      "median": 10.068,
+      "p5": 9.427,
+      "p95": 40.824,
+      "max": 69.56,
+      "gaps_over_3x_median": 80
+    },
+    "rows_without_imu_fraction": 0.0647,
+    "std_accel": [
+      0.0073529951542399795,
+      0.00823539831003555,
+      0.008134828455786539
+    ],
+    "std_gyro": [
+      0.00021049060433620155,
+      0.00021177859949786238,
+      0.00021112855381537614
+    ],
+    "std_euler": [
+      0.2730478797269816,
+      0.1115689556279844,
+      0.27120410541598544
+    ],
+    "frozen_axes": {
+      "accel": [
+        false,
+        false,
+        false
+      ],
+      "gyro": [
+        false,
+        false,
+        false
+      ]
+    },
+    "repeat_fraction": {
+      "accel": 0.0264,
+      "gyro": 0.0264
+    },
+    "imu_board_absent": false,
+    "accel_norm": {
+      "mean": 9.806057041647069,
+      "std": 0.0073849012084458605
+    },
+    "units_guess": {
+      "accel": "m/s^2",
+      "g": 9.80665,
+      "gyro": "rad/s per spec, unverified"
+    },
+    "still": {
+      "still": true,
+      "gyro_std_norm": 0.0003672411396883366,
+      "accel_norm_std_rel": 0.0007530958852351791
+    },
+    "status_values": {
+      "2": 983
+    },
+    "x2060": {
+      "mean": 30.7462657024271,
+      "std": 0.33383119739585954,
+      "min": 29.017013549804688,
+      "max": 32.73077392578125
+    },
+    "euler_vs_accel_deg": {
+      "ENU, ZYX (Xsens spec)": 1.255,
+      "NED, ZYX": 178.745,
+      "ENU, XYZ order": 73.113,
+      "ENU, roll/pitch swapped": 72.867
+    },
+    "checksum_errors": {
+      "mtdata2": 523
+    },
+    "bad_frames_by_mid_len": {
+      "0x36/55": 7,
+      "0x36/89": 516
+    }
+  },
+  {
+    "name": "2026-09-30_16-27-05_pose_noseup",
+    "label": "pose_noseup",
+    "time_source": "host",
+    "samples": 998,
+    "duration_s": 14.991,
+    "rate_hz": 66.51,
+    "interval_ms": {
+      "median": 10.047,
+      "p5": 9.403,
+      "p95": 40.841,
+      "max": 99.681,
+      "gaps_over_3x_median": 77
+    },
+    "rows_without_imu_fraction": 0.0594,
+    "std_accel": [
+      0.009835350208897147,
+      0.011430049012514485,
+      0.011718912292850889
+    ],
+    "std_gyro": [
+      0.0002909792269891006,
+      0.0005590723554374382,
+      0.0003281547038328804
+    ],
+    "std_euler": [
+      1.7744505492789064,
+      0.22123561903508548,
+      1.7102109323181256
+    ],
+    "frozen_axes": {
+      "accel": [
+        false,
+        false,
+        false
+      ],
+      "gyro": [
+        false,
+        false,
+        false
+      ]
+    },
+    "repeat_fraction": {
+      "accel": 0.02,
+      "gyro": 0.02
+    },
+    "imu_board_absent": false,
+    "accel_norm": {
+      "mean": 9.811589805748559,
+      "std": 0.009890808878010467
+    },
+    "units_guess": {
+      "accel": "m/s^2",
+      "g": 9.80665,
+      "gyro": "rad/s per spec, unverified"
+    },
+    "still": {
+      "still": true,
+      "gyro_std_norm": 0.000713137306293984,
+      "accel_norm_std_rel": 0.00100807403018576
+    },
+    "status_values": {
+      "2": 998
+    },
+    "x2060": {
+      "mean": 136.62130122672102,
+      "std": 1.2360835705341344,
+      "min": 130.2146759033203,
+      "max": 140.31582641601562
+    },
+    "euler_vs_accel_deg": {
+      "ENU, ZYX (Xsens spec)": 2.267,
+      "NED, ZYX": 177.733,
+      "ENU, XYZ order": 94.956,
+      "ENU, roll/pitch swapped": 54.402
+    },
+    "checksum_errors": {
+      "mtdata2": 514
+    },
+    "bad_frames_by_mid_len": {
+      "0x36/55": 12,
+      "0x36/89": 502
+    }
+  },
+  {
+    "name": "2026-09-30_16-27-55_rot_z",
+    "label": "rot_z",
+    "time_source": "host",
+    "samples": 1005,
+    "duration_s": 14.98,
+    "rate_hz": 67.02,
+    "interval_ms": {
+      "median": 10.064,
+      "p5": 9.399,
+      "p95": 40.483,
+      "max": 90.019,
+      "gaps_over_3x_median": 70
+    },
+    "rows_without_imu_fraction": 0.0669,
+    "std_accel": [
+      0.13706512440090263,
+      0.250242996204603,
+      0.019918796783196475
+    ],
+    "std_gyro": [
+      0.008014873439475528,
+      0.008226976779212792,
+      0.27494640201659615
+    ],
+    "std_euler": [
+      1.1773771001976443,
+      0.705869185583206,
+      125.20113563627012
+    ],
+    "frozen_axes": {
+      "accel": [
+        false,
+        false,
+        false
+      ],
+      "gyro": [
+        false,
+        false,
+        false
+      ]
+    },
+    "repeat_fraction": {
+      "accel": 0.0289,
+      "gyro": 0.0289
+    },
+    "imu_board_absent": false,
+    "accel_norm": {
+      "mean": 9.818632720438636,
+      "std": 0.02021634771593976
+    },
+    "units_guess": {
+      "accel": "m/s^2",
+      "g": 9.80665,
+      "gyro": "rad/s per spec, unverified"
+    },
+    "still": {
+      "still": false,
+      "gyro_std_norm": 0.2783518646013073,
+      "accel_norm_std_rel": 0.0020589778935163816
+    },
+    "status_values": {
+      "2": 1005
+    },
+    "x2060": {
+      "mean": -100.06072965783267,
+      "std": 28.156492339306045,
+      "min": -119.6090316772461,
+      "max": -50.35331726074219
+    },
+    "euler_vs_accel_deg": {
+      "ENU, ZYX (Xsens spec)": 0.025,
+      "NED, ZYX": 179.975,
+      "ENU, XYZ order": 7.325,
+      "ENU, roll/pitch swapped": 7.276
+    },
+    "checksum_errors": {
+      "mtdata2": 497
+    },
+    "bad_frames_by_mid_len": {
+      "0x36/55": 3,
+      "0x36/89": 494
+    }
+  },
+  {
+    "name": "2026-09-30_16-28-38_rot_x",
+    "label": "rot_x",
+    "time_source": "host",
+    "samples": 999,
+    "duration_s": 14.94,
+    "rate_hz": 66.8,
+    "interval_ms": {
+      "median": 10.056,
+      "p5": 9.364,
+      "p95": 40.761,
+      "max": 79.664,
+      "gaps_over_3x_median": 74
+    },
+    "rows_without_imu_fraction": 0.0593,
+    "std_accel": [
+      0.21108199504315112,
+      3.928211322164681,
+      4.150705774118306
+    ],
+    "std_gyro": [
+      0.2184101985574793,
+      0.06257206914126487,
+      0.03900978971145676
+    ],
+    "std_euler": [
+      36.01701534962797,
+      1.0635066559740534,
+      130.79865263721393
+    ],
+    "frozen_axes": {
+      "accel": [
+        false,
+        false,
+        false
+      ],
+      "gyro": [
+        false,
+        false,
+        false
+      ]
+    },
+    "repeat_fraction": {
+      "accel": 0.029,
+      "gyro": 0.029
+    },
+    "imu_board_absent": false,
+    "accel_norm": {
+      "mean": 9.814902405141236,
+      "std": 0.11359245168506876
+    },
+    "units_guess": {
+      "accel": "m/s^2",
+      "g": 9.80665,
+      "gyro": "rad/s per spec, unverified"
+    },
+    "still": {
+      "still": false,
+      "gyro_std_norm": 0.2309364621600838,
+      "accel_norm_std_rel": 0.011573467263980826
+    },
+    "status_values": {
+      "2": 999
+    },
+    "x2060": {
+      "mean": -111.14570102939854,
+      "std": 31.45684421859604,
+      "min": -136.2142333984375,
+      "max": -55.46669387817383
+    },
+    "euler_vs_accel_deg": {
+      "ENU, ZYX (Xsens spec)": 2.144,
+      "NED, ZYX": 177.856,
+      "ENU, XYZ order": 108.731,
+      "ENU, roll/pitch swapped": 76.185
+    },
+    "checksum_errors": {
+      "mtdata2": 513
+    },
+    "bad_frames_by_mid_len": {
+      "0x36/55": 12,
+      "0x36/89": 501
+    }
+  },
+  {
+    "name": "2026-09-30_16-29-07_rot_y",
+    "label": "rot_y",
+    "time_source": "host",
+    "samples": 1002,
+    "duration_s": 14.99,
+    "rate_hz": 66.78,
+    "interval_ms": {
+      "median": 10.067,
+      "p5": 9.394,
+      "p95": 40.738,
+      "max": 61.052,
+      "gaps_over_3x_median": 77
+    },
+    "rows_without_imu_fraction": 0.0653,
+    "std_accel": [
+      3.674097689560006,
+      0.2456427092232586,
+      4.249079123764859
+    ],
+    "std_gyro": [
+      0.06071099388833129,
+      0.18044613889818223,
+      0.10131166976741535
+    ],
+    "std_euler": [
+      64.89667779347235,
+      34.19242397096219,
+      103.08283700777774
+    ],
+    "frozen_axes": {
+      "accel": [
+        false,
+        false,
+        false
+      ],
+      "gyro": [
+        false,
+        false,
+        false
+      ]
+    },
+    "repeat_fraction": {
+      "accel": 0.025,
+      "gyro": 0.025
+    },
+    "imu_board_absent": false,
+    "accel_norm": {
+      "mean": 9.820993693854659,
+      "std": 0.15304131447852487
+    },
+    "units_guess": {
+      "accel": "m/s^2",
+      "g": 9.80665,
+      "gyro": "rad/s per spec, unverified"
+    },
+    "still": {
+      "still": false,
+      "gyro_std_norm": 0.2162564244257049,
+      "accel_norm_std_rel": 0.015583078377729558
+    },
+    "status_values": {
+      "2": 1002
+    },
+    "x2060": {
+      "mean": -28.632972873375564,
+      "std": 99.21056287124392,
+      "min": -168.16026306152344,
+      "max": 168.61497497558594
+    },
+    "euler_vs_accel_deg": {
+      "ENU, ZYX (Xsens spec)": 24.226,
+      "NED, ZYX": 155.774,
+      "ENU, XYZ order": 111.587,
+      "ENU, roll/pitch swapped": 36.042
+    },
+    "checksum_errors": {
+      "mtdata2": 503
+    },
+    "bad_frames_by_mid_len": {
+      "0x36/55": 5,
+      "0x36/89": 498
+    }
+  }
+]

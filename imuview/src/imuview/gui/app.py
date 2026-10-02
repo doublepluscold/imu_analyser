@@ -29,7 +29,7 @@ def main(argv=None):
     ap.add_argument("--config", help="TOML config (default: config.toml if it exists)")
     ap.add_argument("--calib", help="host calibration JSON (default: calib/imu_calib.json)")
     ap.add_argument("--models", help="folder with .stl files and models.toml (default: models/)")
-    ap.add_argument("--source", choices=["udp", "serial", "sim"], help="connect at start")
+    ap.add_argument("--source", choices=["master", "udp", "serial", "sim"], help="connect at start")
     ap.add_argument("--session", help="open this recorded session in analysis mode")
     args = ap.parse_args(argv)
 

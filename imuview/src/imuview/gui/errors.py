@@ -4,12 +4,12 @@ import errno
 
 
 def friendly(exc: BaseException, transport: str = "", target: str = "") -> tuple[str, str]:
-    """(message for the user, raw details). transport: serial | udp | sim."""
+    """(message for the user, raw details). transport: master | serial | udp | sim."""
     raw = f"{type(exc).__name__}: {exc}"
     text = str(exc).lower()
     eno = getattr(exc, "errno", None)
     where = f" {target}" if target else ""
-    if transport == "serial":
+    if transport in ("serial", "master"):
         if eno in (errno.EACCES, errno.EPERM) or "permission" in text:
             msg = (f"Немає доступу до порту{where}. На Linux додай себе в групу dialout "
                    "і перелогінься.")  # fmt: skip

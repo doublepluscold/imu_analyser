@@ -27,6 +27,7 @@ from .multi import MultiPipeline
 from .pipeline import Pipeline, load_config
 from .sources import (
     BytesSource,
+    MasterSerialSource,
     MessageSource,
     MultiSimSource,
     RawFileSource,
@@ -180,10 +181,23 @@ def run_multi(source, config, args, label=None):
 
 def cmd_net(args):
     config = load_config(args.config)
-    host = args.host or config["network"]["host"]
-    port = args.port or config["network"]["port"]
-    source = UdpSource(host, port)
-    print(f"listening on udp {host}:{source.port} (listen-only, nothing is ever sent)")
+    if args.serial:  # the master ESP over USB instead of UDP
+        source = MasterSerialSource(args.serial)
+        shown = []
+
+        def show_link(_line):  # print the status sentence only when it changes
+            text = source.link_summary()
+            if not shown or shown[-1] != text:
+                shown.append(text)
+                print(f"[master] {text}")
+
+        source.on_diag = show_link
+        print(f"listening on {args.serial} (master ESP over USB, listen-only, nothing is sent)")
+    else:
+        host = args.host or config["network"]["host"]
+        port = args.port or config["network"]["port"]
+        source = UdpSource(host, port)
+        print(f"listening on udp {host}:{source.port} (listen-only, nothing is ever sent)")
     if args.seconds:
         source = TimeLimit(source, args.seconds)
     run_multi(source, config, args)
@@ -500,7 +514,7 @@ def main(argv=None):
     p.add_argument("--config")
     p.add_argument("--calib")
     p.add_argument("--models")
-    p.add_argument("--source", choices=["udp", "serial", "sim"])
+    p.add_argument("--source", choices=["master", "udp", "serial", "sim"])
     p.add_argument("--session")
     p.set_defaults(func=cmd_gui)
 
@@ -526,7 +540,8 @@ def main(argv=None):
     add_run_options(p)
     p.set_defaults(func=cmd_live)
 
-    p = sub.add_parser("net", help="listen on UDP for the master ESP (several modules), record")
+    p = sub.add_parser("net", help="listen to the master ESP (several modules), record")
+    p.add_argument("--serial", help="read the master over this USB serial port instead of UDP")
     p.add_argument("--host", help="address to bind (default from config: 0.0.0.0)")
     p.add_argument("--port", type=int, help="default from config: 5005")
     p.add_argument("--seconds", type=float, help="stop after this many seconds")

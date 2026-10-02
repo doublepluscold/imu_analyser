@@ -94,7 +94,7 @@ class AppController:
         self._fix_active()
 
     def start_live(self, kind: str, **params):
-        """Connect (udp / serial / sim). The old connection, if any, is stopped first."""
+        """Connect (master / udp / serial / sim). The old connection, if any, is stopped first."""
         self.stop_live()
         self.live_store = Store()
         self.active = None
@@ -157,6 +157,11 @@ class AppController:
         """Called by the GUI timer: keeps `active` valid, reports finished loads and errors."""
         if self.live and self.live.error:
             self.message = f"connection error: {self.live.error}"
+        elif self.live is not None:
+            # the master ESP reports where its chain breaks (slave silent, UART dead, ...)
+            summary = getattr(self.live.pipeline.source, "link_summary", None)
+            if summary is not None:
+                self.message = summary()
         if self.player:
             if self.player.error:
                 self.message = f"cannot open session: {self.player.error}"

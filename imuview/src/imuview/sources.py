@@ -13,12 +13,14 @@ commands during replay, CSV imports).
 
 SerialSource is LISTEN-ONLY. The module's USART1 also hosts an OTA bootloader and a command
 parser; a stray byte can brick it. Nothing in this project may write to the port.
+MasterSerialSource (the master ESP over USB) is a SerialSource too, so it listens only as well.
 """
 
 import dataclasses
 import math
 import socket
 import struct
+import threading
 import time
 from collections import Counter, deque
 from dataclasses import dataclass
@@ -39,7 +41,7 @@ from .frames import (
     quat_to_matrix,
 )
 from .messages import FixType, GnssFix
-from .netproto import DatagramError, parse_datagram
+from .netproto import HEADER, MAGIC, MAX_PAYLOAD, VERSION, Datagram, DatagramError, parse_datagram
 from .protocol import RefParser, encode_frame, encode_imu_payload
 from .protocol_mtdata2 import encode_frame as mt_encode_frame
 from .protocol_mtdata2 import encode_gpssol_payload
@@ -473,7 +475,45 @@ class SerialSource:
         self._ser.close()
 
 
-class UdpSource:
+class _DatagramBook:
+    """Per-module counting shared by every source that receives netproto datagrams (UDP, USB).
+
+    Counts accepted datagrams, damaged ones, and gaps in each module's sequence number (lost
+    packets) or late/repeated numbers (out of order). Only counting: no I/O.
+    """
+
+    def _book_init(self):
+        self.datagrams = Counter()  # module_id -> accepted datagrams
+        self.lost = Counter()  # module_id -> datagrams missing by sequence number
+        self.out_of_order = Counter()  # module_id -> late or repeated datagrams
+        self.bad = 0  # damaged datagrams (wrong magic, version or length)
+        self.last_error = None
+        self._last_seq = {}
+
+    def _register(self, d: Datagram, now_ns: int, out: list):
+        """Count d; append a Chunk to out unless it is late or repeated."""
+        self.datagrams[d.module_id] += 1
+        last = self._last_seq.get(d.module_id)
+        if last is not None:
+            missing = (d.seq - last - 1) & 0xFFFF  # u16 wraps
+            if missing == 0xFFFF or missing >= 0x8000:  # same or older number: late / repeated
+                self.out_of_order[d.module_id] += 1
+                return
+            self.lost[d.module_id] += missing
+        self._last_seq[d.module_id] = d.seq
+        out.append(Chunk(now_ns, d.payload, d.module_id))
+
+    def _book_stats(self) -> dict:
+        return {
+            "datagrams": {str(k): v for k, v in sorted(self.datagrams.items())},
+            "bad_datagrams": self.bad,
+            "lost_datagrams": sum(self.lost.values()),
+            "lost_by_module": {str(k): v for k, v in sorted(self.lost.items())},
+            "out_of_order_datagrams": sum(self.out_of_order.values()),
+        }
+
+
+class UdpSource(_DatagramBook):
     """LISTEN-ONLY UDP receiver: datagrams of netproto.py from the master ESP, one per module frame.
 
     The socket is only ever read (recvfrom); there is no method that sends. Every datagram becomes a
@@ -497,26 +537,14 @@ class UdpSource:
         self.host = host
         self.port = sock.getsockname()[1]  # the real port when 0 was asked for
         self.bytes_read = 0
-        self.datagrams = Counter()  # module_id -> accepted datagrams
-        self.lost = Counter()  # module_id -> datagrams missing by sequence number
-        self.out_of_order = Counter()  # module_id -> late or repeated datagrams
-        self.bad = 0  # damaged datagrams (wrong magic, version or length)
-        self.last_error = None
-        self._last_seq = {}
+        self._book_init()
 
     def describe(self) -> dict:
         return {"type": "udp", "host": self.host, "port": self.port, "listen_only": True,
                 "time_source": self.time_source}  # fmt: skip
 
     def stats(self) -> dict:
-        return {
-            "datagrams": {str(k): v for k, v in sorted(self.datagrams.items())},
-            "bad_datagrams": self.bad,
-            "lost_datagrams": sum(self.lost.values()),
-            "lost_by_module": {str(k): v for k, v in sorted(self.lost.items())},
-            "out_of_order_datagrams": sum(self.out_of_order.values()),
-            "bytes": self.bytes_read,
-        }
+        return {**self._book_stats(), "bytes": self.bytes_read}
 
     def read(self, timeout=0.05):
         out = []
@@ -538,19 +566,231 @@ class UdpSource:
             self.last_error = str(e)
             return
         self.bytes_read += len(d.payload)
-        self.datagrams[d.module_id] += 1
-        last = self._last_seq.get(d.module_id)
-        if last is not None:
-            missing = (d.seq - last - 1) & 0xFFFF  # u16 wraps
-            if missing == 0xFFFF or missing >= 0x8000:  # same or older number: late / repeated
-                self.out_of_order[d.module_id] += 1
-                return
-            self.lost[d.module_id] += missing
-        self._last_seq[d.module_id] = d.seq
-        out.append(Chunk(now_ns, d.payload, d.module_id))
+        self._register(d, now_ns, out)
 
     def close(self):
         self._sock.close()
+
+
+def _is_single_mtdata2_frame(buf: bytes) -> bool:
+    """True if buf is exactly one MTData2 frame: FA FF 36 LEN payload CS, sum from FF to CS = 0.
+
+    Same rule as mtdata2_is_single_frame() in the master firmware, which only forwards such frames.
+    """
+    n = len(buf)
+    if n < 5 or buf[:3] != b"\xfa\xff\x36":
+        return False
+    hdr, plen = 4, buf[3]
+    if plen == 0xFF:  # extended length: 2 bytes big-endian
+        if n < 7:
+            return False
+        hdr, plen = 6, (buf[4] << 8) | buf[5]
+    return hdr + plen + 1 == n and sum(buf[1:]) & 0xFF == 0
+
+
+class MasterSerialSource(SerialSource, _DatagramBook):
+    """LISTEN-ONLY: the master ESP32 over its USB serial port (no Ethernet needed).
+
+    The master writes two kinds of things into that port, mixed in one byte stream:
+      - binary datagrams in exactly the format of netproto.py, so everything behind this source is
+        identical to the UDP path:   'I' 'V' 1 module_id seq len payload
+      - text lines that start with "# " and end with a newline: the master's own diagnostics (link
+        state, and per slave its status packet plus a diagnosis such as UART_SILENT).
+    Anything else (ROM boot messages, a half-written line, noise) is skipped and counted.
+
+    Being a SerialSource, it opens the port with DTR/RTS low and has no way to write. A reading
+    can start or end anywhere inside a datagram, so the bytes go through a small re-framer: a
+    datagram is accepted only when the header is sane AND its payload is one valid MTData2 frame
+    (sync, length, checksum). A false start inside binary data, or a datagram cut off in the
+    middle, is therefore dropped without swallowing the real datagram behind it.
+    """
+
+    time_source = "host"
+    PAYLOAD_SYNC = b"\xfa\xff\x36"
+    MAX_TEXT_LINE = 400
+    STALE_S = 3.5  # the master prints once a second: older than this = it stopped
+
+    def __init__(self, port: str, baud: int = 115200, serial_cls=None, strict_payload=True):
+        super().__init__(port, baud, serial_cls)  # baud: meaningless on USB, pyserial wants it
+        self._book_init()
+        self.strict_payload = strict_payload
+        self._buf = bytearray()
+        self._lock = threading.Lock()  # diag data is read by the GUI thread
+        self.payload_bytes = 0
+        self.skipped_bytes = 0  # bytes that were neither a datagram nor a text line
+        self.diag = deque(maxlen=200)  # the last text lines, without the "# "
+        self.peers = {}  # module_id -> key=value fields of its line, plus "_t" (monotonic seconds)
+        self.link = {}  # fields of the master's "link" line
+        self._link_t = None
+        self.on_diag = None  # optional callable(line), called from the reading thread
+
+    def describe(self) -> dict:
+        return {"type": "master-serial", "port": self.port, "listen_only": True,
+                "time_source": self.time_source}  # fmt: skip
+
+    def stats(self) -> dict:
+        return {
+            **self._book_stats(),
+            "bytes": self.payload_bytes,
+            "port_bytes": self.bytes_read,
+            "skipped_bytes": self.skipped_bytes,
+            "diag_lines": len(self.diag),
+        }
+
+    # ----- reading -----
+
+    def read(self, timeout=0.05):
+        data = self._ser.read(max(1, self._ser.in_waiting))
+        if not data:
+            return []
+        self.bytes_read += len(data)
+        out = []
+        self._feed(data, time.monotonic_ns(), out)
+        return out
+
+    def _feed(self, data: bytes, now_ns: int, out: list):
+        buf = self._buf
+        buf += data
+        while buf:
+            first = buf[0]
+            if first == 0x49:  # 'I': start of a datagram?
+                step = self._take_datagram(buf, now_ns, out)
+            elif first == 0x23:  # '#': start of a text line?
+                step = self._take_text(buf)
+            else:
+                step = False
+            if step is None:  # a real start, but the rest has not arrived yet
+                break
+            if step is False:  # not a start (or a broken one): drop up to the next candidate
+                cut = 1 if first in (0x49, 0x23) else 0
+                nxt = len(buf)
+                for c in (b"I", b"#"):
+                    k = buf.find(c, 1)
+                    if k != -1:
+                        nxt = min(nxt, k)
+                cut = max(cut, nxt)
+                self.skipped_bytes += cut
+                del buf[:cut]
+
+    def _take_datagram(self, buf: bytearray, now_ns: int, out: list):
+        """True: consumed a datagram. None: need more bytes. False: not a datagram here."""
+        magic_ver = MAGIC + bytes([VERSION])
+        have = min(len(buf), len(magic_ver))
+        if bytes(buf[:have]) != magic_ver[:have]:
+            return False
+        if len(buf) < HEADER.size:
+            return None
+        _, _, module_id, seq, length = HEADER.unpack_from(buf)
+        if length > MAX_PAYLOAD:
+            self.bad += 1
+            self.last_error = f"length field {length} too large"
+            return False
+        sync = len(self.PAYLOAD_SYNC)
+        if self.strict_payload and len(buf) >= HEADER.size + sync:
+            if bytes(buf[HEADER.size : HEADER.size + sync]) != self.PAYLOAD_SYNC:
+                self.bad += 1
+                self.last_error = "payload does not start like an MTData2 frame"
+                return False
+        total = HEADER.size + length
+        if len(buf) < total:
+            return None
+        payload = bytes(buf[HEADER.size : total])
+        if self.strict_payload and not _is_single_mtdata2_frame(payload):
+            # The master only sends whole, valid frames, so this is a datagram cut off earlier whose
+            # missing tail was filled with the next datagram's bytes. Skip one byte and look again:
+            # the next real datagram is still in the buffer.
+            self.bad += 1
+            self.last_error = "payload is not one valid MTData2 frame"
+            return False
+        del buf[:total]
+        self.payload_bytes += len(payload)
+        self._register(Datagram(module_id, seq, payload), now_ns, out)
+        return True
+
+    def _take_text(self, buf: bytearray):
+        """True: consumed a line. None: need more bytes. False: not a text line."""
+        if len(buf) >= 2 and buf[1] != 0x20:
+            return False  # our lines start with "# "
+        nl = buf.find(b"\n", 0, self.MAX_TEXT_LINE)
+        body = buf[: nl if nl >= 0 else len(buf)]
+        if any((c < 0x20 and c not in (0x09, 0x0D)) or c > 0x7E for c in body):
+            return False  # binary data: this '#' was not a line start
+        if nl < 0:
+            return None if len(buf) < self.MAX_TEXT_LINE else False
+        line = bytes(buf[:nl]).decode("ascii").rstrip("\r")
+        del buf[: nl + 1]
+        self._on_line(line)
+        return True
+
+    # ----- the master's diagnostics -----
+
+    def _on_line(self, line: str):
+        text = line[2:].strip()
+        fields = {}
+        for tok in text.split():
+            if "=" in tok:
+                k, v = tok.split("=", 1)
+                fields[k] = v
+        now = time.monotonic()
+        with self._lock:
+            self.diag.append(text)
+            if text.startswith("link "):
+                self.link, self._link_t = fields, now
+            elif text.startswith("id=") and fields.get("id", "").isdigit():
+                self.peers[int(fields["id"])] = {**fields, "_t": now}
+        if self.on_diag:
+            self.on_diag(text)
+
+    def diag_lines(self) -> list[str]:
+        with self._lock:
+            return list(self.diag)
+
+    DIAG_TEXT = {
+        "UART_SILENT": "UART мовчить (проводка, точка підключення?)",
+        "NO_VALID_FRAMES": "UART є, але кадрів нема (швидкість? рівні?)",
+        "RESTARTED": "слейв перезавантажується (живлення?)",
+        "NO_ACK": "майстер не підтверджує прийом (MAC, канал, відстань)",
+        "QUEUE_DROPS": "радіо не встигає за потоком",
+        "BEACON": "тестовий режим радіо (UART ігнорується)",
+    }
+
+    def link_summary(self) -> str:
+        """One line for the status bar: what is wrong, or that everything is fine."""
+        with self._lock:
+            peers = {k: dict(v) for k, v in self.peers.items()}
+            link_t = self._link_t
+        if self.bytes_read == 0:
+            return "ESP-майстер: з порту нічого не приходить (той порт? прошивка майстра?)"
+        if link_t is None:
+            if self.datagrams:
+                return "ESP-майстер: дані йдуть (діагностики майстра немає)"
+            return "З порту йдуть байти, але це не схоже на майстра (інший порт?)"
+        if time.monotonic() - link_t > self.STALE_S:
+            return "ESP-майстер замовк"
+        if not peers:
+            return (
+                "ESP-майстер на зв'язку, але жодного слейва не чути "
+                "(живлення? канал? тест esp32c3_beacon)"
+            )
+        problems = []
+        for mid, kv in sorted(peers.items()):
+            hb = kv.get("hb")
+            if hb == "lost":
+                problems.append(f"#{mid}: слейв замовк")
+            elif hb == "none":
+                problems.append(f"#{mid}: слейв не шле статус (стара прошивка?)")
+            elif kv.get("diag") in self.DIAG_TEXT:
+                problems.append(f"#{mid}: {self.DIAG_TEXT[kv['diag']]}")
+        if problems:
+            return "ESP: " + "; ".join(problems)
+        rssi = []
+        for kv in peers.values():
+            try:
+                rssi.append(int(kv["rssi"]))
+            except (KeyError, ValueError):
+                pass
+        tail = f", RSSI {min(rssi)} дБм" if rssi else ""
+        return f"ESP: {len(peers)} мод., усе гаразд{tail}"
 
 
 # ---------- files ----------

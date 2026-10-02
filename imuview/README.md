@@ -49,7 +49,8 @@ src/imuview/
   protocol.py   framers (ref, NMEA, UBX), demux, reference parser, encoder
   protocol_mtdata2.py  Xsens MTData2 framer + parser (wraps vendor/mtdata2_decoder.py), encoder
   calibration.py  host calibration file and its application (a_cal = M (a - b), w - bias)
-  sources.py    SimSource (ref + mtdata2), SerialSource (listen-only), RawFileSource,
+  sources.py    SimSource (ref + mtdata2), SerialSource (listen-only), MasterSerialSource (master ESP
+                over USB), UdpSource, RawFileSource,
                 BytesSource (raw dumps), MessageSource + csv_messages (CSV imports)
   fusion.py     Mahony, Madgwick, passthrough, gyro calibration
   pipeline.py   config, Router, Pipeline (same code for live, sim and replay)
@@ -155,10 +156,18 @@ to `PARSERS` in `protocol.py`. Nothing else changes.
     uv run imu gui                       # or: uv run imuview-gui
     uv run imu gui --source sim          # 3 simulated modules, no hardware
     uv run imu gui --session logs/<dir>  # open a recorded session (analysis mode)
-    uv run python tools/udp_master_sim.py --modules 3 --gps   # stand-in for the master ESP
+    uv run python tools/udp_master_sim.py --modules 3 --gps   # stand-in for the master ESP (UDP)
+    uv run python tools/usb_master_sim.py --modules 3 --gps --link /tmp/ttyIMU   # same, over USB
 
-- Sources: UDP (master ESP, datagram format in `src/imuview/netproto.py`), USB-serial (one
-  module, `module_id` 0) and a simulator. All of them only listen.
+- Sources: the master ESP over **USB** (transport "Wi-Fi: майстер ESP (USB)", default port
+  `/dev/ttyACM0`, `COMx` on Windows; no Ethernet cable needed), the same master over UDP
+  (datagram format in `src/imuview/netproto.py`), USB-serial (one module straight from its UART,
+  `module_id` 0, for debugging) and a simulator. All of them only listen.
+- Master over USB: the port carries the same datagrams as UDP plus text lines starting with `# `
+  (the master's diagnostics, with a per-slave diagnosis). The status bar shows what is wrong in
+  words ("#2: UART мовчить", "жодного слейва не чути"). Headless: `uv run imu net --serial
+  /dev/ttyACM0 --no-record`. The program opens the port with DTR/RTS low and never writes to it.
+  If another program (a serial monitor) opens the port, the ESP32-S3 may reset; that is harmless.
 - Modes: **Лайв** (3D model + plots, recording on by default), **Калібрація** (wizard:
   level, 5 more sides, gyro; writes `calib/imu_calib.json` and a report), **Аналіз**
   (recorded session, time slider, play / pause / speed).

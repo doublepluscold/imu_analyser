@@ -42,6 +42,7 @@ DEFAULT_CONFIG = {
     "calibration": {"seconds": 3.0, "max_gyro_dps": 5.0, "max_accel_std": 0.2},
     "modules": {"names": {}},  # module_id (as text) -> name shown in the GUI, e.g. {"1": "Drone 1"}
     "network": {"host": "0.0.0.0", "port": 5005},  # UdpSource, listen only
+    "master": {"port": "/dev/ttyACM0"},  # MasterSerialSource: the master ESP over USB, listen only
     "viewer": {"plot_hz": 0, "transform_hz": 0, "model": ""},  # 0 = full rate
 }
 

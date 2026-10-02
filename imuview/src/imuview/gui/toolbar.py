@@ -9,7 +9,12 @@ from .theme import T
 from .widgets import Dot, Segmented, button, label, separator, set_variant
 
 TABS = [("live", "Лайв"), ("calibration", "Калібрація"), ("analysis", "Аналіз")]
-TRANSPORTS = [("serial", "USB-serial"), ("udp", "Мережа (UDP)"), ("sim", "Демо (симулятор)")]
+TRANSPORTS = [
+    ("master", "Wi-Fi: майстер ESP (USB)"),
+    ("udp", "Wi-Fi: майстер ESP (мережа)"),
+    ("serial", "USB-serial (дебаг)"),
+    ("sim", "Демо (симулятор)"),
+]
 LAYOUT_NAMES = {"single": "Один модуль", "grid": "Сітка", "scene": "Одна сцена"}
 VIEW_OPTIONS = [("3d", "3D"), ("plots", "Графіки"), ("both", "3D + графіки"), ("raw", "MTData")]
 
@@ -86,7 +91,7 @@ class TopBar(QFrame):
         kind = self._current
         self.port.blockSignals(True)
         self.port.clear()
-        if kind == "serial":
+        if kind in ("serial", "master"):
             self.port.addItems(list_serial_ports())
             self.port.setEditable(True)
         elif kind == "udp":
@@ -106,7 +111,7 @@ class TopBar(QFrame):
                 k = self.port.findData(int(text)) if text.isdigit() else -1
                 self.port.setCurrentIndex(max(0, k))
         self.port.blockSignals(False)
-        self.refresh_btn.setVisible(kind == "serial")
+        self.refresh_btn.setVisible(kind in ("serial", "master"))
 
     def refresh_ports(self):
         keep = self.port.currentText()
@@ -128,7 +133,7 @@ class TopBar(QFrame):
     def connection(self) -> tuple[str, dict]:
         """(kind, parameters for AppController.start_live). ValueError for a bad UDP port."""
         kind = self._current
-        if kind == "serial":
+        if kind in ("serial", "master"):
             return kind, {"serial_port": self.port.currentText().strip()}
         if kind == "udp":
             n = int(self.port.currentText())

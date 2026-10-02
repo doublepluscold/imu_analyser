@@ -6,18 +6,24 @@ from pathlib import Path
 
 from ..calibration import Calibration
 from ..multi import MultiPipeline
-from ..sources import MultiSimSource, SerialSource, UdpSource, session_source
+from ..sources import MasterSerialSource, MultiSimSource, SerialSource, UdpSource, session_source
 from .store import Store
 
-SOURCE_KINDS = ("udp", "serial", "sim")
+SOURCE_KINDS = ("master", "udp", "serial", "sim")
 
 
 def make_source(kind: str, config: dict, *, host=None, port=None, serial_port=None, baud=None,
                 sim_modules=3, sim_gps=True):  # fmt: skip
-    """The three ways to get data. All of them only listen."""
+    """The ways to get data. All of them only listen.
+
+    master: the master ESP over USB (modules reach it by Wi-Fi / ESP-NOW); udp: the same master
+    over Ethernet; serial: ONE module straight from its UART (debugging); sim: simulated modules.
+    """
     if kind == "udp":
         net = config["network"]
         return UdpSource(host or net["host"], int(port or net["port"]))
+    if kind == "master":
+        return MasterSerialSource(serial_port or config["master"]["port"])
     if kind == "serial":
         ser = config["serial"]
         return SerialSource(serial_port or ser["port"], int(baud or ser["baud"]))

@@ -3,40 +3,38 @@
   "frame": "native sensor frame of the stream, before board alignment",
   "model": "a_cal = M (a_raw - b); w_cal = w_raw - gyro_bias",
   "accel_offset_b": [
-    -0.002444796438979692,
-    0.002770088194486194,
-    -0.004419012431450271
+    -0.0018270576059675242,
+    0.002514784338331561,
+    -0.005074957717046046
   ],
   "accel_matrix_M": [
     [
-      0.9997834393311497,
+      0.9998668763577745,
       0.0,
       0.0
     ],
     [
       0.0,
-      0.9996524254699305,
+      0.9997341732667887,
       0.0
     ],
     [
       0.0,
       0.0,
-      0.998422641940102
+      0.9983781652573417
     ]
   ],
   "gyro_bias": [
-    3.1108894923937664e-05,
-    -4.095954979359024e-05,
-    3.538362241590571e-05
+    6.272359681603929e-05,
+    -5.645914544231432e-06,
+    4.0236867950747094e-05
   ],
   "level_trim_deg": [
-    -0.4089,
-    2.5761
+    2.5165,
+    4.463
   ],
   "sources": {
-    "accel": "calib/reports/2026-09-30/accel_205918.json",
-    "gyro": "calib/reports/2026-09-30/gyro_205926.json",
-    "level": "calib/reports/2026-09-30/level_205926.json"
+    "wizard": "module 0"
   },
   "g": 9.80665,
   "units": "m/s^2",
@@ -44,12 +42,12 @@
     "model": "six",
     "n_poses": 6,
     "redundancy": 0,
-    "rms_before_ms2": 0.009847057481711963,
-    "rms_after_ms2": 2.0368775783822606e-15,
-    "max_rel_err_after": 3.3306690738754696e-16,
+    "rms_before_ms2": 0.01001334908234049,
+    "rms_after_ms2": 1.2571881352282251e-15,
+    "max_rel_err_after": 2.220446049250313e-16,
     "warnings": [
       "6 poses for 6 parameters: the fit is exactly determined, so the residual after calibration proves nothing; check |a| on an extra pose"
     ]
   },
-  "created": "2026-09-30T20:59:26"
+  "created": "2026-10-01T13:20:55"
 }

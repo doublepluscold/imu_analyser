@@ -6,6 +6,7 @@ DEFAULTS = {
     "tab": "live",
     "transport": "sim",
     "port/serial": "/dev/ttyUSB0",
+    "port/master": "/dev/ttyACM0",
     "port/udp": "5005",
     "port/sim": "3",
     "record": True,

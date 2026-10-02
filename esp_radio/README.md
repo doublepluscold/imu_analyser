@@ -1,41 +1,43 @@
 # Прошивки ESP для бездротового IMU-демо
 
 ```
-IMU-модуль --UART--> ESP-01 (esp-01/) --ESP-NOW--> ESP32-S3 (esp32s3/) --W5500/UDP--> ноутбук (imuview)
+IMU-модуль --UART--> ESP32-C3 (esp32c3-slave/) --ESP-NOW--> ESP32-S3 (esp32s3/) --USB--> ноутбук (imuview)
+                                                                       \--W5500/UDP--> (старий режим, OUTPUT_USB 0)
 ```
 
-- `common/` - чистий C++ (framer MTData2, datagram, id_table), спільна бібліотека обох проєктів
-- `esp-01/` - slave, PlatformIO, Arduino-ESP8266
-- `esp32s3/` - master, PlatformIO, Arduino-ESP32 3.x (pioarduino), W5500; тут же юніт-тести
+**Не працює / не знаю, де обрив: [BRINGUP.md](BRINGUP.md)** (схема підключення, діагностика кроками, таблиця діагнозів).
+
+- `common/` - чистий C++ (framer MTData2, datagram, id_table, heartbeat зі статусом slave, генератор тестового кадру), спільна бібліотека обох проєктів
+- `esp32c3-slave/` - slave, PlatformIO, Arduino-ESP32 3.x (pioarduino), ESP32-C3 Mini/SuperMini
+- `esp-01/` - старий slave на ESP8266, архів, не використовується
+- `esp32s3/` - master, PlatformIO, Arduino-ESP32 3.x (pioarduino); вихід по USB (за замовчуванням) або W5500/UDP; тут же юніт-тести
 - `esp32c3/` - еталонні ESP-NOW експерименти, не чіпати
 
 ## ПОПЕРЕДЖЕННЯ: UART модуля
 
 На UART модуля сидять OTA-бутлоадер і командний парсер. Випадковий байт може зіпсувати прошивку модуля.
 
-- **TX ESP-01 НІКОЛИ не з'єднувати з RX модуля.** До RX модуля ESP-01 не підключається взагалі.
-- Підключення: TX модуля (TTL-вихід мікроконтролера до ADM3232E, **не RS-232**) -> RX ESP-01 (GPIO3), і спільна земля. Більше нічого.
-- ESP8266 при старті друкує діагностику на TX (74880 baud). Це була б каша в бутлоадері. Тому TX ESP-01 у бойовому режимі висить у повітрі.
-- Прошивка slave нічого не пише в UART у бойовому режимі (`DEBUG_LOG 0`, UART в режимі RX-only).
-- Налагодження (`DEBUG_LOG 1`, env `esp01_debug`): статистика йде на TX ESP-01 на USB-UART адаптер, потік модуля на RX подається з іншого джерела, TX з модулем не з'єднаний.
-- Світлодіод GPIO2 мигає при кожному надісланому кадрі в обох режимах.
-- ESP-01 живити від 3.3 В LDO, що дає до ~300 мА піками.
+- C3 тільки слухає: `Serial1.begin(..., RX_PIN, -1)`, TX не призначений. Не з'єднувати жодні TX-піни C3 з RX модуля.
+- Підключення: TTL-лінія з даними конвертера -> RX C3 (GPIO20, `RX_PIN` у `esp32c3-slave/src/config.h`), і спільна земля. Рівні 3.3 В.
+- Діагностика (`DEBUG_LOG 1`) іде в USB-CDC (`Serial`), окремий порт від UART модуля, тому безпечна.
+- Живлення C3: USB-C. Світлодіод: `LED_PIN` у `config.h` (SuperMini: GPIO8).
 
 ## Збірка
 
 ```bash
-cd esp-01   && pio run                # бойова збірка
-cd esp-01   && pio run -e esp01_debug # стенд, статистика на TX
+cd esp32c3-slave && pio run                  # бойова збірка
+cd esp32c3-slave && pio run -e esp32c3_debug  # статистика в USB-CDC
+cd esp32c3-slave && pio run -e esp32c3_beacon # РАДІО-САМОТЕСТ: синтетичні кадри, UART ігнорується
 cd esp32s3  && pio run
 cd esp32s3  && pio test -e native     # юніт-тести на ПК
 ```
 
 ## Перший запуск
 
-1. Прошити master, у USB-консолі побачити `master up: wifi mac=...`.
-2. Прошити slave (усі однаковою прошивкою). За замовчуванням slave шле на broadcast. Для unicast: вписати MAC master у `MASTER_MAC` в `esp-01/src/config.h`.
-3. Канал `WIFI_CHANNEL` (за замовчуванням 1) однаковий у `esp-01/src/config.h` і `esp32s3/src/config.h`.
-4. На ноутбуці: IP `192.168.50.1/24`, `uv run imu net --seconds 10 --no-record`.
+1. Прошити master (за замовчуванням `OUTPUT_USB 1`: дані йдуть по тому самому USB, Ethernet не потрібен). На порту побачити `# master up: wifi mac=...` (порт містить і бінарні датаграми, і текстові рядки з `# `).
+2. Прошити slave (усі однаковою прошивкою). За замовчуванням slave шле на broadcast. Для unicast: вписати MAC master у `MASTER_MAC` в `esp32c3-slave/src/config.h`.
+3. Канал `WIFI_CHANNEL` (за замовчуванням 1) однаковий у `esp32c3-slave/src/config.h` і `esp32s3/src/config.h`.
+4. На ноутбуці: `uv run imu net --serial /dev/ttyACM0 --no-record` або GUI, транспорт "Wi-Fi: майстер ESP (USB)". (Старий режим `OUTPUT_USB 0`: IP `192.168.50.1/24`, `uv run imu net --seconds 10 --no-record`.)
 
 Скидання таблиці ID на master: утримати BOOT (GPIO0) 5 с при старті, або `reset_ids` у USB-консолі.
 
@@ -45,4 +47,4 @@ cd esp32s3  && pio test -e native     # юніт-тести на ПК
 - Wi-Fi канал 1, slave шле broadcast, поки не задано `MASTER_MAC`.
 - PlatformIO. Master: `esp32-s3-devkitc-1`, flash 8 МБ.
 - Master `192.168.50.2/24`, ноутбук `192.168.50.1`, UDP 5005; broadcast-режим через `UDP_USE_BROADCAST`.
-- Схема ESP-01 <-> модуль: точку TTL-сигналу вибирає інженер, прошивка її не визначає.
+- Схема C3 <-> модуль: точку TTL-сигналу вибирає інженер, прошивка її не визначає. Для конвертера CP2102/SP3232 див. BRINGUP.md, п. 1.

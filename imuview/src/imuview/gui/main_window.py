@@ -132,7 +132,7 @@ class MainWindow(QMainWindow):
         if sizes and len(sizes) == 2 and all(x >= 120 for x in sizes):
             self.split.setSizes(sizes)
         self.top.set_transport(s.get("transport"), s.get(f"port/{s.get('transport')}"))
-        for kind in ("serial", "udp", "sim"):
+        for kind in ("master", "udp", "serial", "sim"):
             self.top._port_memory[kind] = s.get(f"port/{kind}")
         self.top.log_check.setChecked(self.c.options.record)
         self.sub.layout_seg.set_value(self.c.options.layout)
